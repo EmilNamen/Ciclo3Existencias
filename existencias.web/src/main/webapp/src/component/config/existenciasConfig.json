@@ -1,0 +1,9 @@
+{
+    "displayName" : "Existencias",
+    "name" : "existencias",
+    "templateName" : "existencias",
+    "url" : "user.html",
+    "server": "localhost:8080",
+    "context": "/existencias.service.subsystem.web/webresources/Existencias",
+    "el" : "#main"
+}
