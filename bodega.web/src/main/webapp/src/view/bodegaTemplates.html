@@ -40,3 +40,25 @@
     </form>
     </div>
 </script> 
+
+<script type="text/template" id="productoSearch">
+    <div class="form-group">
+    <form role="form" id="<%= componentId %>-bodegaForm">
+    <% if(bodega.id) {%>
+    <input type="hidden" name="id" value="<%= bodega.id %>"/>
+    <% }%>
+		<div class="form-group" >
+		<label for="productName">productName</label>
+    	<input type="text" class="form-control" id="productName" name="productName" placeholder="" value="<%= bodega.get('name') %>"/>	
+		</div>
+		
+ 
+    </form>
+    <button id="<%= componentId%>-user-searchButton" 
+        onclick="Backbone.trigger('<%= componentId %>-product-search',{}); return false" 
+        type="button" class="btn btn-default">
+            <span class="glyphicon glyphicon-search"></span> Search
+    </button>
+    </div>
+ 
+</script>

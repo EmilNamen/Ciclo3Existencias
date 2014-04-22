@@ -153,7 +153,60 @@ define(['model/bodegaModel'], function(bodegaModel) {
 				}));
                 self.$el.slideDown("fast");
             });
-        }
+        },
+        
+        postInit: function(options) {
+            var self = this;
+            this.searchTemplate = _.template($('#productoSearch').html()+$('#productoList').html());
+ 
+            Backbone.on(this.componentId + '-' + 'toolbar-search', function(params) {
+                self.search(params);
+            });
+            Backbone.on(this.componentId+'-producto-search', function(params) {
+                self.productoSearch(params);
+            });
+        },
+        
+         _renderSearch: function(params) {
+ 
+            var self = this;
+            this.$el.slideUp("fast", function() {
+                self.$el.html(self.searchTemplate({componentId: self.componentId,
+                    productos: self.productoModelList.models,
+                    producto: self.currentProductoModel,
+                    showEdit: false,
+                    showDelete:false
+                }));
+                self.$el.slideDown("fast");
+            });
+        },
+        
+        
+        
+        search: function() {
+            this.currentProductoModel = new App.Model.ProductoModel();
+            this.productoModelList = new this.listModelClass();
+            this._renderSearch();
+        },
+        productoSearch: function() {
+            var self = this;
+            var model = $('#' + this.componentId + '-productoForm').serializeObject();
+            this.currentProductoModel.set(model);
+            App.Delegate.ProductoDelegate.search(self.currentProductoModel, function(data) {
+                self.productoModelList=new App.Model.ProductoList();
+                _.each(data,function(d){
+                    var model=new App.Model.ProductoModel(d);
+                    self.productoModelList.models.push(model);
+                });
+                self._renderSearch(params);
+            }, function(data) {
+                Backbone.trigger(self.componentId + '-' + 'error', {event: 'producto-search', view: self, id: '', data: data, error: 'Error in user search'});
+            });
+        },
+        
+        
+        
+        
     });
     return App.Controller._BodegaController;
 });

@@ -46,5 +46,11 @@ public abstract class _ProductoService {
 	public void updateProducto(@PathParam("id") Long id, ProductoDTO producto){
 		productoLogicService.updateProducto(producto);
 	}
+        
+        @POST
+    @Path("/search")
+        public List<ProductoDTO> searchProducto(ProductoDTO producto){
+               return this.productoLogicService.searchProducto(producto);
+        }
 	
 }

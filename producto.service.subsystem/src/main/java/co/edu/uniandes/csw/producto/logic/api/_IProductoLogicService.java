@@ -12,5 +12,7 @@ public interface _IProductoLogicService {
 	public ProductoDTO getProducto(Long id);
 	public void deleteProducto(Long id);
 	public void updateProducto(ProductoDTO detail);
+        
+        public List<ProductoDTO> searchProducto(ProductoDTO producto);
 	
 }
