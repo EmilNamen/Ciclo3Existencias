@@ -42,5 +42,18 @@ public abstract class _BodegaPersistence implements _IBodegaPersistence {
 		BodegaEntity entity=entityManager.merge(BodegaConverter.persistenceDTO2Entity(detail));
 		BodegaConverter.entity2PersistenceDTO(entity);
 	}
+        
+        public List<BodegaDTO> searchBodega(String descr) {    
+            descr = descr.split("\"description\":\"")[1];
+            descr = descr.split("\"")[0];
+            System.out.println("Param: " + descr);
+            Query q = entityManager.createQuery("select u from BodegaEntity u where u.name like '%" + descr + "%'");
+           
+            List list = q.getResultList();
+            if (list.size() != 0) {
+                return BodegaConverter.entity2PersistenceDTOList(list);
+            }
+            return null;
+         }
 
 }

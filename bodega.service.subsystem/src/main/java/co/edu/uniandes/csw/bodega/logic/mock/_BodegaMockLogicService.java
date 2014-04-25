@@ -5,6 +5,7 @@ import java.util.List;
 
 import co.edu.uniandes.csw.bodega.logic.dto.BodegaDTO;
 import co.edu.uniandes.csw.bodega.logic.api._IBodegaLogicService;
+import co.edu.uniandes.csw.bodega.persistence.BodegaPersistence;
 
 public abstract class _BodegaMockLogicService implements _IBodegaLogicService {
 
@@ -53,5 +54,10 @@ public abstract class _BodegaMockLogicService implements _IBodegaLogicService {
 			data.remove(delete);
 			data.add(bodega);
 		} 
-	}	
+	}
+        
+        public List<BodegaDTO> searchBodega(String desc) {
+            BodegaPersistence q = new BodegaPersistence();
+            return q.searchBodega(desc);
+        }
 }

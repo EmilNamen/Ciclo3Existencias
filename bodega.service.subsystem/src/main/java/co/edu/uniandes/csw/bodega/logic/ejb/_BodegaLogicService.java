@@ -30,5 +30,9 @@ public abstract class _BodegaLogicService implements _IBodegaLogicService {
 
 	public void updateBodega(BodegaDTO bodega){
 	    persistance.updateBodega(bodega); 
-	}	
+	}
+        
+        public List<BodegaDTO> searchBodega(String desc){
+                return persistance.searchBodega(desc);
+        }
 }

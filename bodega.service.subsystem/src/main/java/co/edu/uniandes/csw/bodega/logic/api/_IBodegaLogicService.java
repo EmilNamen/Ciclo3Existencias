@@ -12,5 +12,5 @@ public interface _IBodegaLogicService {
 	public BodegaDTO getBodega(Long id);
 	public void deleteBodega(Long id);
 	public void updateBodega(BodegaDTO detail);
-	
+        public List<BodegaDTO> searchBodega(String desc);
 }

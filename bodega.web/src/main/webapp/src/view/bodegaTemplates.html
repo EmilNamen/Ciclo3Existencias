@@ -62,3 +62,19 @@
     </div>
  
 </script>
+<!-->Estamos manejando bodega search y producto search, porque las búsquedas que hicimos son diferentes....<-->
+<script type="text/template" id="bodegaSearch">
+    <div class="form-group">
+    <form role="form" id="<%= componentId %>-bodegaSearch">
+    <div class="form-group" >
+    <label for="name">Name: </label>
+    <input type="text" class="form-control" id="description" name="description" placeholder="Enter value"/>    
+    </div>
+    </form>
+    <button id="<%= componentId%>-bodega-searchButton"
+    onclick="Backbone.trigger('<%= componentId %>-bodega-search',{}); return false"
+    type="button" class="btn btn-default">
+    <span class="glyphicon glyphicon-search"></span> Search
+    </button>
+    </div>
+</script>

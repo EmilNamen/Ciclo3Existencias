@@ -42,9 +42,14 @@ public abstract class _BodegaService {
 	}
 	
 	@PUT
-    @Path("{id}")
+        @Path("{id}")
 	public void updateBodega(@PathParam("id") Long id, BodegaDTO bodega){
 		bodegaLogicService.updateBodega(bodega);
 	}
 	
+        @POST
+        @Path("/search")
+        public List<BodegaDTO> searchBodega(String desc){
+            return this.bodegaLogicService.searchBodega(desc);
+        }
 }

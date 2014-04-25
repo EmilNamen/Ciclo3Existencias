@@ -12,5 +12,6 @@ public interface _IBodegaPersistence {
 	public BodegaDTO getBodega(Long id);
 	public void deleteBodega(Long id);
 	public void updateBodega(BodegaDTO detail);
+        public List<BodegaDTO> searchBodega(String desc);
 	
 }

@@ -7,6 +7,7 @@ define(['model/bodegaModel'], function(bodegaModel) {
             this.showDelete = true;
             this.editTemplate = _.template($('#bodega').html());
             this.listTemplate = _.template($('#bodegaList').html());
+            this.searchTemplate = _.template($('#bodegaSearch').html() + $('#bodegaList').html());
             if (!options || !options.componentId) {
                 this.componentId = _.random(0, 100) + "";
             }else{
@@ -21,6 +22,12 @@ define(['model/bodegaModel'], function(bodegaModel) {
             });
             Backbone.on(this.componentId + '-' + 'bodega-edit', function(params) {
                 self.edit(params);
+            });
+            Backbone.on(this.componentId + '-' + 'toolbar-search', function(params) {
+                self.search(params);
+            });
+            Backbone.on(this.componentId + '-' + 'bodega-search', function(params) {
+                self.bodegaSearch(params);
             });
             Backbone.on(this.componentId + '-' + 'bodega-delete', function(params) {
                 self.destroy(params);
@@ -138,6 +145,23 @@ define(['model/bodegaModel'], function(bodegaModel) {
                         });
             }
         },
+        
+        bodegaSearch: function(params) {
+            var self = this;
+            var model = $('#' + this.componentId + '-bodegaSearch').serializeObject();
+            this.currentBodegaModel.set(model);
+            App.Delegate.BodegaDelegate.search(self.currentBodegaModel, function(data) {
+                self.bodegaModelList = new App.Model.BodegaList();
+                _.each(data, function(d) {
+                    var model = new App.Model.BodegaModel(d);
+                    self.bodegaModelList.models.push(model);
+                });
+                self._renderSearch(params);
+            }, function(data) {
+                Backbone.trigger(self.componentId + '-' + 'error', {event: 'bodega-search', view: self, id: '', data: data, error: {textResponse: 'Error in bodega search'}});
+            });
+        },
+        
         _renderList: function() {
             var self = this;
             this.$el.slideUp("fast", function() {
@@ -155,6 +179,7 @@ define(['model/bodegaModel'], function(bodegaModel) {
             });
         },
         
+        /*No estoy seguro si esta función esté bien... puesto que en bodega sin guion bajo ya hay una...*/
         postInit: function(options) {
             var self = this;
             this.searchTemplate = _.template($('#productoSearch').html()+$('#productoList').html());
@@ -168,7 +193,6 @@ define(['model/bodegaModel'], function(bodegaModel) {
         },
         
          _renderSearch: function(params) {
- 
             var self = this;
             this.$el.slideUp("fast", function() {
                 self.$el.html(self.searchTemplate({componentId: self.componentId,
@@ -188,6 +212,8 @@ define(['model/bodegaModel'], function(bodegaModel) {
             this.productoModelList = new this.listModelClass();
             this._renderSearch();
         },
+        
+        /*Esta funcion es autogenerada? o ustedes la hicieron?*/
         productoSearch: function() {
             var self = this;
             var model = $('#' + this.componentId + '-productoForm').serializeObject();
@@ -202,10 +228,7 @@ define(['model/bodegaModel'], function(bodegaModel) {
             }, function(data) {
                 Backbone.trigger(self.componentId + '-' + 'error', {event: 'producto-search', view: self, id: '', data: data, error: 'Error in user search'});
             });
-        },
-        
-        
-        
+        }
         
     });
     return App.Controller._BodegaController;
